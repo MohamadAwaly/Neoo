@@ -32,17 +32,8 @@ public class EmployeeController {
 
     @PostMapping("/save")
     public Employee save(@RequestBody Employee employeeDto) {
-        log.info("login :: " +  employeeDto.getLogin());
-        log.info("mail :: " +  employeeDto.getMail());
-//        log.info("role :: " +  employeeDto.getRole().getRole());
-        employeeDto.getAddressEmployes().forEach((address) ->{
-            log.info("address :: " + address.getAddress().getId());
-            log.info("address :: " + address.getAddress().getStreet());
-//            log.info("address :: " + address.getAddress().getCity().getId());
-        });
         Employee employee = employeeService.save(employeeDto);
-//        return employee;
-        return null;
+        return employee;
     }
 
 

@@ -5,6 +5,11 @@ import jakarta.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
+@NamedQueries(value = {
+        @NamedQuery(name = "category.findAll", query = "select c from Category c ")
+})
+
+
 @Entity
 @Table(name = "categorie")
 public class Category implements Serializable {
