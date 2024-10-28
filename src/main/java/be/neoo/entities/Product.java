@@ -5,6 +5,10 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
+@NamedQueries(value = {
+        @NamedQuery(name = "product.findAll", query = "select p from Product p ")
+})
+
 @Entity
 @Table( name = "product" )
 public class Product implements Serializable {
