@@ -1,12 +1,17 @@
 package be.neoo.services;
 
 import be.neoo.connection.EMF;
+import be.neoo.controller.ProductController;
 import be.neoo.dto.ProductDto;
+import be.neoo.entities.Brand;
+import be.neoo.entities.Category;
 import be.neoo.entities.Product;
 import be.neoo.repository.ProductRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -14,6 +19,9 @@ import java.util.List;
 
 @Service
 public class ProductService {
+
+    private static final Logger log = LoggerFactory.getLogger(ProductService.class);
+
 
     ProductRepository productRepository;
     private ModelMapper modelMapper;
@@ -55,10 +63,20 @@ public class ProductService {
     public ProductDto save(ProductDto productDto) {
         EntityManager em = EMF.getEM();
         EntityTransaction trans = em.getTransaction();
+
+        Brand brand = modelMapper.map(productDto.getBrandDto(), Brand.class);
+        Category category = modelMapper.map(productDto.getCategoryDto(), Category.class);
+
         Product product = modelMapper.map(productDto, Product.class);
+        product.setBrand(brand);
+        product.setCategory(category);
+
+
 
         try {
             trans.begin();
+            log.info("Saving brand id {}", product.getBrand().getId());
+            log.info("Saving brand name {}", product.getBrand().getName());
             product = productRepository.save(em, product);
             trans.commit();
         } catch (Exception e) {
@@ -69,7 +87,7 @@ public class ProductService {
         } finally {
             em.close();
         }
-        return modelMapper.map(product, ProductDto.class);
+        return null;
     }
 
     /**

@@ -33,6 +33,7 @@ public class Employee implements Serializable {
 
     @Column( name = "last_name", nullable = false, length = 60 )
     private String lastName;
+
     @Column( name = "first_name", nullable = false, length = 60 )
     private String firstName;
 

@@ -4,6 +4,8 @@ package be.neoo.controller;
 import be.neoo.dto.ProductDto;
 import be.neoo.entities.Product;
 import be.neoo.services.ProductService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,6 +14,9 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:4200", allowedHeaders = "*", allowCredentials = "true")
 @RequestMapping("/products")
 public class ProductController {
+
+    private static final Logger log = LoggerFactory.getLogger(ProductController.class);
+
 
     ProductService productService;
 

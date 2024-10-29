@@ -17,7 +17,7 @@ public class ProductDto {
     private String code;
     private CategoryDto categoryDto;
     private BrandDto brandDto;
-//    private List<WareHouseProduct> wareHouseProducts;
+//    private List<WareHouseProductDto> wareHouseProducts;
 
     public int getId() {
         return id;
@@ -107,11 +107,11 @@ public class ProductDto {
         this.brandDto = brandDto;
     }
 
-//    public List<WareHouseProduct> getWareHouseProducts() {
+//    public List<WareHouseProductDto> getWareHouseProducts() {
 //        return wareHouseProducts;
 //    }
 //
-//    public void setWareHouseProducts(List<WareHouseProduct> wareHouseProducts) {
+//    public void setWareHouseProducts(List<WareHouseProductDto> wareHouseProducts) {
 //        this.wareHouseProducts = wareHouseProducts;
 //    }
 }

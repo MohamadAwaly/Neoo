@@ -3,6 +3,7 @@ package be.neoo.entities;
 
 
 import be.neoo.entities.compoundID.WareHouseProductPK;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -22,12 +23,15 @@ public class WareHouseProduct implements Serializable {
     @Id
     @ManyToOne
     @JoinColumn( name = "product", nullable = false )
+    @JsonBackReference
     private Product product;
 
     @Column( name = "date", nullable = false )
     private Date    date;
+
     @Column( name = "deliver", nullable = false )
     private Boolean deliver;
+
     @Column( name = "quantity", nullable = false )
     private int     quantity;
 
