@@ -2,6 +2,8 @@ package be.neoo.services;
 
 import be.neoo.connection.EMF;
 import be.neoo.controller.ProductController;
+import be.neoo.dto.BrandDto;
+import be.neoo.dto.CategoryDto;
 import be.neoo.dto.ProductDto;
 import be.neoo.entities.Brand;
 import be.neoo.entities.Category;
@@ -39,15 +41,27 @@ public class ProductService {
 
     /**
      * list products
+     *
      * @return
      */
     public List<ProductDto> getProducts() {
         EntityManager em = EMF.getEM();
         List<ProductDto> productDtos = new ArrayList<>();
 
+
         try {
             List<Product> products = productRepository.getProducts(em);
-            products.forEach(product -> productDtos.add(modelMapper.map(product, ProductDto.class)));
+            products.forEach(product -> {
+
+                BrandDto brandDto = modelMapper.map(product.getBrand(), BrandDto.class);
+                CategoryDto categoryDto = modelMapper.map(product.getCategory(), CategoryDto.class);
+                ProductDto productDto = modelMapper.map(product, ProductDto.class);
+
+                productDto.setBrandDto(brandDto);
+                productDto.setCategoryDto(categoryDto);
+
+                productDtos.add(productDto);
+            });
 
         } finally {
             em.close();
@@ -57,6 +71,7 @@ public class ProductService {
 
     /**
      * add new product
+     *
      * @param productDto
      * @return
      */
@@ -70,7 +85,6 @@ public class ProductService {
         Product product = modelMapper.map(productDto, Product.class);
         product.setBrand(brand);
         product.setCategory(category);
-
 
 
         try {
@@ -87,26 +101,34 @@ public class ProductService {
         } finally {
             em.close();
         }
-        return null;
+        return modelMapper.map(product, ProductDto.class);
     }
 
     /**
      * update Product
+     *
      * @param id
      * @param productDto
      * @return
      */
-    public ProductDto update (int id, ProductDto productDto) {
+    public ProductDto update(int id, ProductDto productDto) {
         EntityManager em = EMF.getEM();
         EntityTransaction trans = em.getTransaction();
 
         Product updateProduct = modelMapper.map(productDto, Product.class);
-
-        try{
+        ProductDto productDtoUpdated = new ProductDto();
+        try {
             trans.begin();
-            updateProduct = productRepository.update(em, id,updateProduct );
+            updateProduct = productRepository.update(em, id, updateProduct);
             trans.commit();
-        }catch (Exception e) {
+
+            BrandDto brandDto = modelMapper.map(updateProduct.getBrand(), BrandDto.class);
+            CategoryDto categoryDto = modelMapper.map(updateProduct.getCategory(), CategoryDto.class);
+            productDtoUpdated = modelMapper.map(updateProduct, ProductDto.class);
+            productDtoUpdated = modelMapper.map(productDtoUpdated, ProductDto.class);
+            productDtoUpdated.setBrandDto(brandDto);
+            productDtoUpdated.setCategoryDto(categoryDto);
+        } catch (Exception e) {
             trans.rollback();
         } finally {
             if (trans.isActive()) {
@@ -115,6 +137,6 @@ public class ProductService {
             em.close();
         }
 
-        return modelMapper.map(updateProduct, ProductDto.class);
+        return productDtoUpdated;
     }
 }
