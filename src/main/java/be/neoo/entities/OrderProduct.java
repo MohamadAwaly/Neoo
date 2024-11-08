@@ -1,7 +1,9 @@
 package be.neoo.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -26,20 +28,20 @@ public class OrderProduct implements Serializable {
 
     @Column(name = "discount")
     private long discount;
-
-    @ManyToOne
-    @JoinColumn( name = "id", referencedColumnName = "id", nullable = false, insertable = false, updatable = false )
+    @JsonBackReference
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "order_id", referencedColumnName = "id", nullable = false)
     private Order order;
-
-    @ManyToOne
-    @JoinColumn( name = "id", referencedColumnName = "id", nullable = false, insertable = false, updatable = false )
+    @JsonBackReference
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "product_id", referencedColumnName = "id", nullable = false)
     private Product product;
 
     public int getId() {
         return id;
     }
 
-    public void setId( int id ) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -47,7 +49,7 @@ public class OrderProduct implements Serializable {
         return qte;
     }
 
-    public void setQte( int qte ) {
+    public void setQte(int qte) {
         this.qte = qte;
     }
 
@@ -55,7 +57,7 @@ public class OrderProduct implements Serializable {
         return unitePrice;
     }
 
-    public void setUnitePrice( long unitePrice ) {
+    public void setUnitePrice(long unitePrice) {
         this.unitePrice = unitePrice;
     }
 
@@ -63,7 +65,7 @@ public class OrderProduct implements Serializable {
         return deliver;
     }
 
-    public void setDeliver( Boolean deliver ) {
+    public void setDeliver(Boolean deliver) {
         this.deliver = deliver;
     }
 
@@ -71,7 +73,7 @@ public class OrderProduct implements Serializable {
         return discount;
     }
 
-    public void setDiscount( long discount ) {
+    public void setDiscount(long discount) {
         this.discount = discount;
     }
 
@@ -79,7 +81,7 @@ public class OrderProduct implements Serializable {
         return order;
     }
 
-    public void setOrder( Order order ) {
+    public void setOrder(Order order) {
         this.order = order;
     }
 
@@ -87,22 +89,24 @@ public class OrderProduct implements Serializable {
         return product;
     }
 
-    public void setProduct( Product product ) {
+    public void setProduct(Product product) {
         this.product = product;
     }
 
-    @Override public boolean equals( Object o ) {
-        if ( this == o )
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
             return true;
-        if ( o == null || getClass() != o.getClass() )
+        if (o == null || getClass() != o.getClass())
             return false;
         OrderProduct that = (OrderProduct) o;
         return id == that.id && qte == that.qte && unitePrice == that.unitePrice && discount == that.discount
-                && Objects.equals( deliver, that.deliver ) && Objects.equals( order, that.order )
-                && Objects.equals( product, that.product );
+                && Objects.equals(deliver, that.deliver) && Objects.equals(order, that.order)
+                && Objects.equals(product, that.product);
     }
 
-    @Override public int hashCode() {
-        return Objects.hash( id, qte, unitePrice, deliver, discount, order, product );
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, qte, unitePrice, deliver, discount, order, product);
     }
 }

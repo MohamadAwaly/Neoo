@@ -1,15 +1,10 @@
 package be.neoo.dto;
 
-import be.neoo.entities.WareHouseProduct;
-
-import java.util.List;
-
 public class ProductDto {
-
     private int id;
     private String name;
     private int totalQuantity;
-    private long unitCostPrice;
+    private int unitCostPrice;
     private Boolean active;
     private int minimumQuantity;
     private int quantityBox;
@@ -43,11 +38,11 @@ public class ProductDto {
         this.totalQuantity = totalQuantity;
     }
 
-    public long getUnitCostPrice() {
+    public int getUnitCostPrice() {
         return unitCostPrice;
     }
 
-    public void setUnitCostPrice(long unitCostPrice) {
+    public void setUnitCostPrice(int unitCostPrice) {
         this.unitCostPrice = unitCostPrice;
     }
 

@@ -1,15 +1,15 @@
 package be.neoo.entities;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+
 import java.util.Objects;
 
 @NamedQueries(value = {
-        @NamedQuery(name = "product.findAll", query = "select p from Product p ")
+        @NamedQuery(name = "product.findAll", query = "select p from Product p "),
+        @NamedQuery(name = "product.findByCode", query = "SELECT p FROM Product p WHERE p.code = :code"),
+        @NamedQuery(name = "product.stockQuantityGtZero", query = "SELECT p FROM Product p WHERE p.totalQuantity > 0")
 })
 
 @Entity

@@ -24,12 +24,11 @@ public class ProductService {
 
     private static final Logger log = LoggerFactory.getLogger(ProductService.class);
 
-
     ProductRepository productRepository;
     private ModelMapper modelMapper;
 
     /**
-     * Product List
+     * Constructor
      *
      * @param productRepository
      * @param modelMapper
@@ -40,17 +39,43 @@ public class ProductService {
     }
 
     /**
-     * list products
+     * Get all product
      *
      * @return
      */
     public List<ProductDto> getProducts() {
         EntityManager em = EMF.getEM();
         List<ProductDto> productDtos = new ArrayList<>();
-
-
         try {
             List<Product> products = productRepository.getProducts(em);
+            products.forEach(product -> {
+
+                BrandDto brandDto = modelMapper.map(product.getBrand(), BrandDto.class);
+                CategoryDto categoryDto = modelMapper.map(product.getCategory(), CategoryDto.class);
+                ProductDto productDto = modelMapper.map(product, ProductDto.class);
+
+                productDto.setBrandDto(brandDto);
+                productDto.setCategoryDto(categoryDto);
+
+                productDtos.add(productDto);
+            });
+
+        } finally {
+            em.close();
+        }
+        return productDtos;
+    }
+
+
+    /**
+     * Get all product that has a stock greater than zero
+     * @return
+     */
+    public List<ProductDto> getProductsStockQuantityGtZero() {
+        EntityManager em = EMF.getEM();
+        List<ProductDto> productDtos = new ArrayList<>();
+        try {
+            List<Product> products = productRepository.getProductsStockQuantityGtZero(em);
             products.forEach(product -> {
 
                 BrandDto brandDto = modelMapper.map(product.getBrand(), BrandDto.class);
@@ -138,5 +163,16 @@ public class ProductService {
         }
 
         return productDtoUpdated;
+    }
+
+    /**
+     * check if code exist
+     *
+     * @param code
+     * @return
+     */
+    public boolean codeExist(String code) {
+        EntityManager em = EMF.getEM();
+        return productRepository.codeExist(em, code);
     }
 }

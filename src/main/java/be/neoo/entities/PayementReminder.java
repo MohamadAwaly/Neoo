@@ -1,6 +1,7 @@
 package be.neoo.entities;
 
 import be.neoo.entities.compoundID.PayementReminderPK;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -15,11 +16,13 @@ public class PayementReminder implements Serializable {
 
     @Id
     @ManyToOne
+    @JsonBackReference
     @JoinColumn( name = "orders", nullable = false )
     private Order order;
 
     @Id
     @ManyToOne
+    @JsonBackReference
     @JoinColumn( name = "reminder_type", nullable = false )
     private ReminderType reminderType;
 

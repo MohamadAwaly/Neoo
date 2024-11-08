@@ -1,5 +1,8 @@
 package be.neoo.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -17,13 +20,13 @@ public class Order implements Serializable {
     @Column(name = "id", nullable = false)
     private int id;
 
-    @Column(name = "date_order", nullable = false)
+    @Column(name = "date_order", nullable = true)
     private Date dateOrder;
 
     @Column(name = "payed", nullable = false)
     private Boolean payed;
 
-    @Column(name = "payement_date", nullable = false)
+    @Column(name = "payement_date", nullable = true)
     private Date payementDate;
 
     @Column(name = "deliver", nullable = false)
@@ -35,19 +38,21 @@ public class Order implements Serializable {
     @Column(name = "mode_of_payement", nullable = false)
     private String modeOfPayement;
 
-    @ManyToOne
-    @JoinColumn(name = "customer", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
+    @ManyToOne (cascade = CascadeType.ALL)
+    @JsonBackReference
+    @JoinColumn(name = "customer", referencedColumnName = "id", nullable = true, updatable = false)
     private Customer customer;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @JsonManagedReference
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<OrderProduct> orderProducts;
-
+    @JsonManagedReference
     @OneToMany(mappedBy = "order", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     private List<PayementOrder> payementOrders;
-
+    @JsonManagedReference
     @OneToMany(mappedBy = "order", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
     private List<OrderDocument> orderDocuments;
-
+    @JsonManagedReference
     @OneToMany(mappedBy = "order", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     private List<PayementReminder> payementReminders;
 

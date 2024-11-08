@@ -22,7 +22,7 @@ public class CustomerDto {
     private String password;
     private String status;
     private boolean actif;
-    private RoleDto role;
+//    private RoleDto role;
 
     public int getId() {
         return id;
@@ -112,11 +112,11 @@ public class CustomerDto {
         this.actif = actif;
     }
 
-    public RoleDto getRole() {
-        return role;
-    }
-
-    public void setRole(RoleDto role) {
-        this.role = role;
-    }
+//    public RoleDto getRole() {
+//        return role;
+//    }
+//
+//    public void setRole(RoleDto role) {
+//        this.role = role;
+//    }
 }

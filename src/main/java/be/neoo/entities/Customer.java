@@ -67,7 +67,7 @@ public class Customer implements Serializable {
     @OneToMany( mappedBy = "customer", cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.LAZY )
     @JsonManagedReference
     private List<AdressCustomer> adressCustomers;
-
+    @JsonManagedReference
     @OneToMany( mappedBy = "customer", cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.LAZY )
     private List<Order> orders;
 

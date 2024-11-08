@@ -1,5 +1,6 @@
 package be.neoo.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -20,7 +21,7 @@ public class PayementOrder implements Serializable {
 
     @Column( name = "amount", nullable = false )
     private long amount;
-
+    @JsonBackReference
     @ManyToOne
     @JoinColumn( name = "id", referencedColumnName = "id", nullable = false, insertable = false, updatable = false )
     private Order order;

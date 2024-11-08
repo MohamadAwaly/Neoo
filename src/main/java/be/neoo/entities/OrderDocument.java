@@ -3,6 +3,7 @@ package be.neoo.entities;
 
 
 import be.neoo.entities.compoundID.OrderDocumentPK;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
@@ -16,11 +17,13 @@ public class OrderDocument implements Serializable {
 
     @Id
     @ManyToOne
+    @JsonBackReference
     @JoinColumn( name = "orders", nullable = false )
     private Order order;
 
     @Id
     @ManyToOne
+    @JsonBackReference
     @JoinColumn( name = "documents", nullable = false )
     private Document document;
 
