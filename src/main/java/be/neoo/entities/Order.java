@@ -10,6 +10,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
+@NamedQueries(value = {
+        @NamedQuery(name = "order.findAll", query = "select o from Order o ")
+})
+
 @Entity
 @Table(name = "orders")
 public class Order implements Serializable {

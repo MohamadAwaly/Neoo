@@ -2,8 +2,10 @@ package be.neoo.services;
 
 
 import be.neoo.connection.EMF;
+import be.neoo.dto.BrandDto;
 import be.neoo.dto.OrderDto;
 import be.neoo.dto.OrderProductDto;
+import be.neoo.entities.Brand;
 import be.neoo.entities.Customer;
 import be.neoo.entities.Order;
 import be.neoo.entities.OrderProduct;
@@ -16,7 +18,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.List;
 
 @Service
 public class OrderService {
@@ -63,5 +65,14 @@ public class OrderService {
             em.close();
         }
         return null;
+    }
+
+    public List<OrderDto> getOrders() {
+        EntityManager em = EMF.getEM();
+        List<OrderDto> orderDtos = new ArrayList<>();
+        List<Order> orders = orderRepository.getOrders(em);
+        orders.forEach(order -> orderDtos.add(modelMapper.map(order, OrderDto.class)));
+        return orderDtos;
+
     }
 }
