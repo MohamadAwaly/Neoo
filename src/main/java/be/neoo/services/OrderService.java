@@ -5,10 +5,8 @@ import be.neoo.connection.EMF;
 import be.neoo.dto.BrandDto;
 import be.neoo.dto.OrderDto;
 import be.neoo.dto.OrderProductDto;
-import be.neoo.entities.Brand;
-import be.neoo.entities.Customer;
-import be.neoo.entities.Order;
-import be.neoo.entities.OrderProduct;
+import be.neoo.dto.ProductDto;
+import be.neoo.entities.*;
 import be.neoo.repository.OrderRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
@@ -73,6 +71,19 @@ public class OrderService {
         List<Order> orders = orderRepository.getOrders(em);
         orders.forEach(order -> orderDtos.add(modelMapper.map(order, OrderDto.class)));
         return orderDtos;
+    }
 
+    public List<OrderProductDto> getOProductsByOrderId( int id) {
+        EntityManager em = EMF.getEM();
+        List<OrderProductDto> orderProductDtos = new ArrayList<>();
+        List<OrderProduct> orderProducts = orderRepository.getOProductsByOrderId(em, id);
+        orderProducts.forEach(product -> {
+            log.info("id produit " + product.getProduct().getId());
+            ProductDto productDto = modelMapper.map(product.getProduct(), ProductDto.class);
+            OrderProductDto orderProductDto = modelMapper.map(product, OrderProductDto.class);
+            orderProductDto.setProductDto(productDto);
+            orderProductDtos.add(orderProductDto);
+        });
+        return orderProductDtos;
     }
 }

@@ -1,9 +1,7 @@
 package be.neoo.repository;
 
 
-import be.neoo.entities.Brand;
-import be.neoo.entities.Customer;
-import be.neoo.entities.Order;
+import be.neoo.entities.*;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 import org.slf4j.Logger;
@@ -20,6 +18,7 @@ public class OrderRepository {
 
     /**
      * add new order
+     *
      * @param em
      * @param order
      * @return
@@ -33,6 +32,12 @@ public class OrderRepository {
 
     public List<Order> getOrders(EntityManager em) {
         Query query = em.createNamedQuery("order.findAll", Order.class);
+        return query.getResultList();
+    }
+
+    public List<OrderProduct> getOProductsByOrderId(EntityManager em, int id) {
+        Query query = em.createNamedQuery("product.findByOrderId", Product.class).setParameter("orderId", id);
+        List<OrderProduct> orderProducts = query.getResultList();
         return query.getResultList();
     }
 }

@@ -11,7 +11,12 @@ import java.util.List;
 import java.util.Objects;
 
 @NamedQueries(value = {
-        @NamedQuery(name = "order.findAll", query = "select o from Order o ")
+        @NamedQuery(name = "order.findAll", query = "select o from Order o "),
+//        @NamedQuery(name = "product.findByOrderId", query = "SELECT p FROM Product p " +
+//                "JOIN OrderProduct op ON op.product.id = p.id " +
+//                "WHERE op.order.id = :orderId"),
+        @NamedQuery(name = "product.findByOrderId", query = "SELECT op FROM OrderProduct op " +
+                "WHERE op.order.id = :orderId"),
 })
 
 @Entity

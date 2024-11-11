@@ -3,6 +3,9 @@ package be.neoo.controller;
 
 import be.neoo.dto.BrandDto;
 import be.neoo.dto.OrderDto;
+import be.neoo.dto.OrderProductDto;
+import be.neoo.dto.ProductDto;
+import be.neoo.entities.OrderProduct;
 import be.neoo.services.OrderService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,11 +41,28 @@ public class OrderController {
 
     /**
      * Get all customer orders
+     *
      * @return
      */
     @GetMapping("/getorders")
     public List<OrderDto> getOrders() {
         return orderService.getOrders();
     }
+
+    /**
+     * Get products by id order
+     *
+     * @return
+     */
+    @GetMapping("/getProductByIdOrder/{id}")
+    public List<OrderProductDto> getOProductsByOrderId(@PathVariable int id) {
+//        log.info("getProductsByOrderId {}", id);
+//        List<ProductDto> productDtos =  orderService.getOProductsByOrderId(id);
+//        productDtos.forEach(productDto -> {
+//           log.info("productDto {}", productDto.getId());
+//        });
+        return orderService.getOProductsByOrderId(id);
+    }
+
 
 }
