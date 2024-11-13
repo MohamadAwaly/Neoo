@@ -56,12 +56,12 @@ public class OrderController {
      */
     @GetMapping("/getProductByIdOrder/{id}")
     public List<OrderProductDto> getOProductsByOrderId(@PathVariable int id) {
-//        log.info("getProductsByOrderId {}", id);
-//        List<ProductDto> productDtos =  orderService.getOProductsByOrderId(id);
-//        productDtos.forEach(productDto -> {
-//           log.info("productDto {}", productDto.getId());
-//        });
         return orderService.getOProductsByOrderId(id);
+    }
+
+    @PutMapping("/updateOrder/{id}")
+    public OrderDto updateOrder(@PathVariable int id, @RequestBody OrderDto orderDto) {
+        return orderService.updateOrder(id, orderDto);
     }
 
 

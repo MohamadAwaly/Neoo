@@ -183,4 +183,16 @@ public class Order implements Serializable {
         return Objects.hash(id, dateOrder, payed, payementDate, deliver, deliverDate, modeOfPayement, customer,
                 orderProducts, payementOrders, orderDocuments, payementReminders);
     }
+
+    // Méthode pour supprimer un produit de la commande
+    public void removeOrderProduct(OrderProduct orderProduct) {
+        this.orderProducts.remove(orderProduct);
+        orderProduct.setOrder(null); // Assurez-vous que l'association bidirectionnelle est correctement maintenue
+    }
+
+    // Méthode pour ajouter un produit à la commande
+    public void addOrderProduct(OrderProduct orderProduct) {
+        this.orderProducts.add(orderProduct);
+        orderProduct.setOrder(this);  // Assurez-vous que l'association bidirectionnelle est correctement maintenue
+    }
 }

@@ -33,29 +33,6 @@ public class EmployeeService {
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
-//    public EmployeeDto save(EmployeeDto employeeDto) {
-//        EntityManager em = EMF.getEM();
-//        EntityTransaction trans = em.getTransaction();
-//        EmployeeDto employeeDto1 = new EmployeeDto();
-//        Employee employee = modelMapper.map(employeeDto, Employee.class);
-//        Role role = modelMapper.map(employee.getRole(), Role.class);
-//        employee.setRole(role);
-//        employee.setPassword(bCryptPasswordEncoder.encode(employee.getPassword()));
-//        try {
-//            trans.begin();
-//            employeeDto1 = modelMapper.map(employeeRepository.save(em, employee), EmployeeDto.class);
-//            trans.commit();
-//        } catch (Exception e) {
-//            trans.rollback();
-//        } finally {
-//            if (trans.isActive()) {
-//                trans.rollback();
-//            }
-//            em.close();
-//        }
-//        return employeeDto1;
-//    }
-
     public Employee save(Employee employee) {
         EntityManager em = EMF.getEM();
         EntityTransaction trans = em.getTransaction();
@@ -160,5 +137,12 @@ public class EmployeeService {
             em.close();
         }
         return employeeDto;
+    }
+
+    public boolean checkIfLoginExist (String login){
+        EntityManager em = EMF.getEM();
+        boolean loginExist ;
+        loginExist = employeeRepository.checkIfLoginExist(em, login);
+        return loginExist;
     }
 }

@@ -2,7 +2,6 @@ package be.neoo.services;
 
 
 import be.neoo.connection.EMF;
-import be.neoo.dto.BrandDto;
 import be.neoo.dto.OrderDto;
 import be.neoo.dto.OrderProductDto;
 import be.neoo.dto.ProductDto;
@@ -51,7 +50,7 @@ public class OrderService {
         int idCustomer = orderDto.getCustomer().getId();
         try {
             trans.begin();
-            orderRepository.save(em , order, idCustomer);
+            orderRepository.save(em, order, idCustomer);
             trans.commit();
         } catch (Exception e) {
             trans.rollback();
@@ -73,7 +72,7 @@ public class OrderService {
         return orderDtos;
     }
 
-    public List<OrderProductDto> getOProductsByOrderId( int id) {
+    public List<OrderProductDto> getOProductsByOrderId(int id) {
         EntityManager em = EMF.getEM();
         List<OrderProductDto> orderProductDtos = new ArrayList<>();
         List<OrderProduct> orderProducts = orderRepository.getOProductsByOrderId(em, id);
@@ -81,9 +80,47 @@ public class OrderService {
             log.info("id produit " + product.getProduct().getId());
             ProductDto productDto = modelMapper.map(product.getProduct(), ProductDto.class);
             OrderProductDto orderProductDto = modelMapper.map(product, OrderProductDto.class);
-            orderProductDto.setProductDto(productDto);
+            orderProductDto.setProduct(productDto);
             orderProductDtos.add(orderProductDto);
         });
         return orderProductDtos;
+    }
+
+    public OrderDto updateOrder(int id, OrderDto orderDto) {
+        EntityManager em = EMF.getEM();
+        EntityTransaction trans = em.getTransaction();
+        OrderDto orderDtoDB = new OrderDto();
+
+        Order order = new Order();
+        order.setId(orderDto.getId());
+        order.setDateOrder(orderDto.getDateOrder());
+        order.setPayed(orderDto.getPayed());
+        order.setPayementDate(orderDto.getPayementDate());
+        order.setModeOfPayement(orderDto.getModeOfPayement());
+        order.setDeliver(orderDto.getDeliver());
+        order.setDeliverDate(orderDto.getDeliverDate());
+        order.setOrderProducts(new ArrayList<>());
+        orderDto.getOrderProducts().forEach(orderProd -> {
+            OrderProduct orderProduct = modelMapper.map(orderProd, OrderProduct.class);
+//            log.info("id produit dans le service de la boucle " + orderProduct.getId());
+            orderProduct.setOrder(order); // Associez l'ordre à chaque produit
+            order.getOrderProducts().add(orderProduct);
+        });
+        try {
+            Order orderDb = new Order();
+            trans.begin();
+            orderDb = orderRepository.updateOrder(em, order, id);
+            trans.commit();
+            orderDtoDB = modelMapper.map(orderDb, OrderDto.class);
+        } catch (Exception e) {
+            trans.rollback();
+            return null;
+        } finally {
+            if (trans.isActive()) {
+                trans.rollback();
+            }
+            em.close();
+        }
+        return null;
     }
 }

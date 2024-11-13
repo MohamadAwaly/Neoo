@@ -60,13 +60,22 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
 //        springUser.getAuthorities().forEach(role -> roles.add(role.getAuthority()));
         // Extraction des rôles et des permissions
+        System.out.println("successfulAuthentication dans le if");
+        System.out.println("successfulAuthentication dans le if");
+        System.out.println("successfulAuthentication dans le if");
+        System.out.println("successfulAuthentication dans le if");
         springUser.getAuthorities().forEach(authority -> {
             String authorityName = authority.getAuthority();
+            roles.add(authorityName);
+            // Ajout des permissions associées à chaque rôle
+            Role role = getRoleByName(authorityName);
+            role.getRolePermissions().forEach(permission -> permissions.add(permission.getPermission().getName()));
             if (authorityName.startsWith("ROLE_")) {
-                roles.add(authorityName);
-                // Ajout des permissions associées à chaque rôle
-                Role role = getRoleByName(authorityName);
-                role.getRolePermissions().forEach(permission -> permissions.add(permission.getPermission().getName()));
+
+//                roles.add(authorityName);
+//                // Ajout des permissions associées à chaque rôle
+//                Role role = getRoleByName(authorityName);
+//                role.getRolePermissions().forEach(permission -> permissions.add(permission.getPermission().getName()));
             } else {
                 permissions.add(authorityName);
             }

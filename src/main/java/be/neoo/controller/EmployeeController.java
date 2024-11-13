@@ -63,6 +63,11 @@ public class EmployeeController {
         return employeeService.disableEmployee(id);
     }
 
+    @GetMapping("/checkIfLoginExist")
+    public boolean checkIfLoginExist(@RequestParam String login){
+        return employeeService.checkIfLoginExist(login);
+    }
+
     @DeleteMapping("/logout")
     public void logout(HttpServletRequest request, HttpServletResponse response) {
         boolean isSecure = false;

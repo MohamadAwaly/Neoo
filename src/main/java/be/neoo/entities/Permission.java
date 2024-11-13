@@ -6,6 +6,10 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
+@NamedQueries(value = {
+        @NamedQuery(name = "permission.findAll", query = "select p from Permission p ")
+})
+
 @Entity
 @Table(name = "permissions")
 public class Permission implements Serializable {

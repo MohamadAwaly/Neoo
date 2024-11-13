@@ -54,12 +54,24 @@ public class EmployeeRepository {
     public Employee disableEmployee(EntityManager em, int id) {
         Employee employee = em.find(Employee.class, id);
         if (employee != null) {
-            employee.setActif(false);
+            if( employee.isActif()){
+                employee.setActif(false);
+            } else {
+                employee.setActif(true);
+            }
+//            employee.setActif(false);
             em.merge(employee);
         }
         return employee;
     }
 
-
-
+    public boolean checkIfLoginExist(EntityManager em, String login) {
+        Query query = em.createNamedQuery("employe.findByLogin");
+        query.setParameter("login", login);
+        if (query.getResultList().isEmpty()) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 }

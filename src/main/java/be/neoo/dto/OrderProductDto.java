@@ -4,20 +4,20 @@ package be.neoo.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class OrderProductDto {
-    @JsonProperty("_id")
+//    @JsonProperty("_id")
     private int id;
-    @JsonProperty("_qte")
+//    @JsonProperty("_qte")
     private int qte;
-    @JsonProperty("_unitePrice")
+    //@JsonProperty("_unitePrice")
     private int unitePrice;
-    @JsonProperty("_deliver")
+//    @JsonProperty("_deliver")
     private Boolean deliver;
-    @JsonProperty("_discount")
+//    @JsonProperty("_discount")
     private long discount;
     //    @JsonProperty("_order")
     private OrderDto orderDto;
-    @JsonProperty("_product")
-    private ProductDto productDto;
+//    @JsonProperty("_product")
+    private ProductDto product;
 
     public int getId() {
         return id;
@@ -67,11 +67,11 @@ public class OrderProductDto {
         this.orderDto = orderDto;
     }
 
-    public ProductDto getProductDto() {
-        return productDto;
+    public ProductDto getProduct() {
+        return product;
     }
 
-    public void setProductDto(ProductDto productDto) {
-        this.productDto = productDto;
+    public void setProduct(ProductDto product) {
+        this.product = product;
     }
 }

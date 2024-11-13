@@ -74,35 +74,51 @@ public class SecurityConfig {
                 }))
 
                 .authorizeHttpRequests(requests -> requests
-                        // Autorise les liens dans AUTH_WHITE_LIST sans authentification
-                        .requestMatchers(AUTH_WHITE_LIST).permitAll()
+                                // Autorise les liens dans AUTH_WHITE_LIST sans authentification
+                                .requestMatchers(AUTH_WHITE_LIST).permitAll()
 
-//                        // Toutes les routes concernant les employés nécessitent le rôle ADMIN
-//                        .requestMatchers(HttpMethod.GET, "/employees/**").hasRole("ADMIN")
-//                        .requestMatchers(HttpMethod.POST, "/employees/save").hasRole("ADMIN")
-//                        .requestMatchers(HttpMethod.PUT, "/employees/updateUser/**").hasRole("ADMIN")
-//                        .requestMatchers(HttpMethod.DELETE, "/employees/delete/**").hasRole("ADMIN")
+                                // Toutes les routes concernant les employés nécessitent le rôle ADMIN
+                                .requestMatchers(HttpMethod.PUT, "/employees/**").hasAuthority("ADMIN")
+                                .requestMatchers(HttpMethod.POST, "/employees/**").hasAuthority("ADMIN")
+                                .requestMatchers(HttpMethod.GET, "/employees/**").hasAuthority("ADMIN")
+                                .requestMatchers(HttpMethod.DELETE, "/employees/**").hasAuthority("ADMIN")
 
-                        // Toutes les routes concernant les employés nécessitent le rôle ADMIN
-                        .requestMatchers(HttpMethod.PUT, "/employees/**").hasAuthority("ROLE_ADMIN")
-                        .requestMatchers(HttpMethod.POST, "/employees/**").hasAuthority("ROLE_ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/employees/**").hasAuthority("ROLE_ADMIN")
-                        .requestMatchers(HttpMethod.DELETE, "/employees/**").hasAuthority("ROLE_ADMIN")
+                                .requestMatchers(HttpMethod.PUT, "/categories/**").hasAuthority("ADMIN")
+                                .requestMatchers(HttpMethod.POST, "/categories/**").hasAuthority("ADMIN")
+                                .requestMatchers(HttpMethod.GET, "/categories/**").hasAuthority("ADMIN")
+                                .requestMatchers(HttpMethod.DELETE, "/categories/**").hasAuthority("ADMIN")
+
+                                .requestMatchers(HttpMethod.PUT, "/roles/**").hasAuthority("ADMIN")
+                                .requestMatchers(HttpMethod.POST, "/roles/**").hasAuthority("ADMIN")
+                                .requestMatchers(HttpMethod.GET, "/roles/**").hasAuthority("ADMIN")
+                                .requestMatchers(HttpMethod.DELETE, "/roles/**").hasAuthority("ADMIN")
 
 
-                        .requestMatchers(HttpMethod.GET, "/roles/roles").hasAuthority("ROLE_ADMIN")
-                        .anyRequest().authenticated())
+                                .requestMatchers(HttpMethod.PUT, "/permissions/**").hasAuthority("GET_ROLES")
+                                .requestMatchers(HttpMethod.POST, "/permissions/**").hasAuthority("GET_ROLES")
+                                .requestMatchers(HttpMethod.GET, "/permissions/**").hasAuthority("GET_ROLES")
+                                .requestMatchers(HttpMethod.DELETE, "/permissions/**").hasAuthority("GET_ROLES")
+
+
+//                                .requestMatchers(HttpMethod.PUT, "/roles/**").hasAuthority("ADMIN")
+//                                .requestMatchers(HttpMethod.POST, "/roles/**").hasAuthority("ADMIN")
+//                                .requestMatchers(HttpMethod.GET, "/roles/**").hasAuthority("ADMIN")
+//                                .requestMatchers(HttpMethod.DELETE, "/roles/**").hasAuthority("ADMIN")
+                                .anyRequest().authenticated()
+                )
+
                 .addFilterBefore(new JWTAuthenticationFilter(authMgr, roleRepo, employeeService), UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
 
+    //            "/roles/**",
+//                    "/roles/roles",
     private static final String[] AUTH_WHITE_LIST = {
             "/login",
-            "/employees/**",
-            "/employees/save",
-            "/employees/logout",
+            "/employees/**  ",
+            "/employees/logout  ",
             "/employees/currentUser",
             "/roles/**",
             "/roles/roles",
