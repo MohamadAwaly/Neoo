@@ -5,6 +5,7 @@ package be.neoo.entities;
 import be.neoo.entities.compoundID.AdressCustomerPK;
 import be.neoo.enums.AddressTypeEnum;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
@@ -12,13 +13,13 @@ import java.util.Objects;
 @Entity
 @IdClass( AdressCustomerPK.class )
 @Table( name = "address_customers" )
-public class AdressCustomer implements Serializable {
+public class AddressCustomer implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
 
     @Id
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn( name = "customer", nullable = false )
     @JsonBackReference
     private Customer customer;
@@ -26,7 +27,7 @@ public class AdressCustomer implements Serializable {
     @Id
     @ManyToOne
     @JoinColumn( name = "address", nullable = false )
-    @JsonBackReference
+    @JsonManagedReference
     private Address address;
 
     @Column( name = "address_type", nullable = false, length = 255 )
@@ -62,7 +63,7 @@ public class AdressCustomer implements Serializable {
             return true;
         if ( o == null || getClass() != o.getClass() )
             return false;
-        AdressCustomer that = (AdressCustomer) o;
+        AddressCustomer that = (AddressCustomer) o;
         return Objects.equals( customer, that.customer ) && Objects.equals( address, that.address )
                 && addressType == that.addressType;
     }

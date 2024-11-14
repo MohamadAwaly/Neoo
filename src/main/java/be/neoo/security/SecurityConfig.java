@@ -93,6 +93,11 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.GET, "/roles/**").hasAuthority("ADMIN")
                                 .requestMatchers(HttpMethod.DELETE, "/roles/**").hasAuthority("ADMIN")
 
+                                .requestMatchers(HttpMethod.PUT, "/customers/**").hasAuthority("ADMIN")
+                                .requestMatchers(HttpMethod.POST, "/customers/**").hasAuthority("ADMIN")
+                                .requestMatchers(HttpMethod.GET, "/customers/**").hasAuthority("ADMIN")
+                                .requestMatchers(HttpMethod.DELETE, "/customers/**").hasAuthority("ADMIN")
+
 
                                 .requestMatchers(HttpMethod.PUT, "/permissions/**").hasAuthority("GET_ROLES")
                                 .requestMatchers(HttpMethod.POST, "/permissions/**").hasAuthority("GET_ROLES")
@@ -117,7 +122,8 @@ public class SecurityConfig {
 //                    "/roles/roles",
     private static final String[] AUTH_WHITE_LIST = {
             "/login",
-            "/employees/**  ",
+            "/employees/**",
+            "/customers/**",
             "/employees/logout  ",
             "/employees/currentUser",
             "/roles/**",

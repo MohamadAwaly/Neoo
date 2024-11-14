@@ -7,6 +7,7 @@ import java.util.Objects;
 
 @NamedQueries( value = {
         @NamedQuery(name = "city.findAll" , query= "SELECT c FROM City c"),
+//        @NamedQuery(name = "city.findAll" , query= "SELECT c FROM City c"),
 })
 
 @Entity
@@ -25,7 +26,7 @@ public class City {
     private String zipCode;
 
     @ManyToOne
-    @JoinColumn( name = "country", referencedColumnName = "id", nullable = false, insertable = false, updatable = false)
+    @JoinColumn( name = "country", referencedColumnName = "id", nullable = false)
     private Country country;
 
     public int getId() {

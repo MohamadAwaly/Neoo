@@ -99,8 +99,10 @@ public class EmployeeService {
             employeeDto.setPassword(updateEmployee.getPassword());
             employeeDto.setStatus(updateEmployee.getStatus());
             employeeDto.setActif(updateEmployee.isActif());
+
             roleDto.setId(updateEmployee.getRole().getId());
             roleDto.setRole(updateEmployee.getRole().getRole());
+
             employeeDto.setRoleDto(roleDto);
         } catch (Exception e) {
             trans.rollback();
@@ -117,15 +119,19 @@ public class EmployeeService {
     public EmployeeDto disableEmployee(int id) {
         EntityManager em = EMF.getEM();
         EntityTransaction trans = em.getTransaction();
+
         Employee disactivatedEmployee = new Employee();
         RoleDto roleDto = new RoleDto();
         EmployeeDto employeeDto = new EmployeeDto();
+
         try {
             trans.begin();
             disactivatedEmployee = employeeRepository.disableEmployee(em, id);
             trans.commit();
+
             roleDto.setId(disactivatedEmployee.getRole().getId());
             roleDto.setRole(disactivatedEmployee.getRole().getRole());
+
             employeeDto = modelMapper.map(disactivatedEmployee, EmployeeDto.class);
             employeeDto.setRoleDto(roleDto);
         } catch (Exception e) {

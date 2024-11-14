@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -22,7 +23,9 @@ public class CustomerDto {
     private String password;
     private String status;
     private boolean actif;
-//    private RoleDto role;
+    private RoleDto role;
+    private List<AddressCustomerDto> address;
+
 
     public int getId() {
         return id;
@@ -112,11 +115,20 @@ public class CustomerDto {
         this.actif = actif;
     }
 
-//    public RoleDto getRole() {
-//        return role;
-//    }
-//
-//    public void setRole(RoleDto role) {
-//        this.role = role;
-//    }
+    public RoleDto getRole() {
+        return role;
+    }
+
+    public void setRole(RoleDto role) {
+        this.role = role;
+    }
+
+
+    public List<AddressCustomerDto> getAddress() {
+        return address;
+    }
+
+    public void setAddress(List<AddressCustomerDto> address) {
+        this.address = address;
+    }
 }

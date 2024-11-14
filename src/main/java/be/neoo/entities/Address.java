@@ -24,7 +24,7 @@ public class Address implements Serializable {
     @Column(name = "box")
     private String box;
 //, insertable = false, updatable = false
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "city", referencedColumnName = "id", nullable = false)
     private City city;
 

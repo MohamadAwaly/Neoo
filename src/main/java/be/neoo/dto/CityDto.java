@@ -9,13 +9,6 @@ public class CityDto {
     private String zipCode;
     private Country country;
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getCityName() {
         return cityName;
@@ -23,6 +16,14 @@ public class CityDto {
 
     public void setCityName(String cityName) {
         this.cityName = cityName;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getZipCode() {

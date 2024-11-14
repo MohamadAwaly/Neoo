@@ -59,7 +59,6 @@ public class EmployeeRepository {
             } else {
                 employee.setActif(true);
             }
-//            employee.setActif(false);
             em.merge(employee);
         }
         return employee;

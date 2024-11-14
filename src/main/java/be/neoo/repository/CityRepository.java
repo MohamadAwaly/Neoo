@@ -19,4 +19,8 @@ public class CityRepository {
         Query query = em.createNamedQuery("city.findAll", City.class);
         return query.getResultList();
     }
+
+    public City findById(EntityManager em, int id) {
+       return em.find(City.class, id);
+    }
 }
